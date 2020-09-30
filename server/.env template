@@ -1,0 +1,8 @@
+DB_USERNAME = 
+DB_PASSWORD = 
+DBNAME = 
+DB_HOST = 
+REDDIT_CLIENT_ID = 
+REDDIT_CLIENT_SECRET = 
+LOCAL = true
+LOCAL_PATH = '/path/to/folder/to/store/images'
