@@ -13,8 +13,8 @@ blueprint = Blueprint("file", __name__, url_prefix='/api/file')
 @blueprint.route("/<filename>")
 @cross_origin()
 def getFile(filename):
-    r_db = queries.Reddit()
-    file = r_db.getFile(filename)
+    sm_db = queries.SocialMedia()
+    file = sm_db.getFile(filename)
     if not file: 
         return api.FILE_NOT_FOUND
     try:

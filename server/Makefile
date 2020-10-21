@@ -1,7 +1,11 @@
 serve:
-	python3 -m app.api.api.py
+	python -m app.api.api.py
+# dev path needs to be fixed
 dev:
-	make serve && \
-	FLASK_DEBUG=1 
+	python -m app.api.api.py
+	
 seed:	
-	python3 -m app.config 
+	python -m app.config 
+
+clean:
+	python -m app.db.clean.py

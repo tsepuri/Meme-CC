@@ -18,7 +18,7 @@ def randomImage():
         print("here")
         return '<html><h1>Under construction</h1></html>'
     else:
-        rclass = queries.Reddit()
-        post = rclass.getRandom(limit=limit)
+        smclass = queries.SocialMedia()
+        post = smclass.getRandom(limit=limit)
         return jsonify(post)
         

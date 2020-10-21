@@ -2,8 +2,6 @@ import praw
 from dotenv import load_dotenv
 import os
 import sys
-from ..db.models import RedditMeme
-from ..db import queries
 from . import settings
 from datetime import datetime
 load_dotenv()
@@ -18,7 +16,6 @@ def find_images(**new_settings) -> dict:
     time_filter = new_settings.get('time_filter', settings.TIME_FILTER)
     subreddits = new_settings.get('subreddits', settings.DEFAULT_SUBREDDITS)
     limit = new_settings.get('limit', settings.DEFAULT_LIMIT)
-    submissions = []
     return reddit.subreddit(subreddits).top(time_filter=time_filter,limit = limit)  
 def to_dict(submission):
     return {'post_id':submission.id, 

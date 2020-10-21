@@ -5,8 +5,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from dataclasses import dataclass, field
 Base = declarative_base()
 metadata = MetaData()
-RedditMemeTable = \
-    Table('reddit_memes', metadata,
+UniqueMemeTable = \
+    Table('unique_memes', metadata,
           Column('_id', Integer, primary_key=True),
           Column('post_id', String(100)),
           Column('likes', Integer),
@@ -19,7 +19,7 @@ RedditMemeTable = \
           Column('source', String(10))
           )
 @dataclass
-class RedditMeme:
+class UniqueMeme:
     post_id: str 
     likes: int
     url: str 

@@ -5,11 +5,16 @@ load_dotenv()
 PORT = int(os.environ.get("PORT", 5000))
 
 #storage
-if os.getenv("LOCAL"):
+if os.getenv("LOCAL") == "true":
     if not os.path.exists(os.getenv("LOCAL_PATH")):
         raise ValueError
 #reddit
+# Funny subreddits on reddit
 DEFAULT_SUBREDDITS = "dankmemes+memes"
-DEFAULT_LIMIT = 1
+DEFAULT_LIMIT =  5
 DEFAULT_EXT = ".png"
 TIME_FILTER = "week"
+
+#twitter
+# Accounts who like funny posts on Twitter
+DEFAULT_LIKERS = ["CosmonautMarcus", "richbrian", "WhosBreezyUK", "Quackity", "Memeulous", "grandayy", "CaucasianJames", "lilsasquatch66"]
