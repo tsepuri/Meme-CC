@@ -4,7 +4,7 @@
     <slot>
     </slot>
 
-    <button class="close" @click="$emit('close-box')">Close</button>
+    <button class="close button" @click="$emit('close-box')">Close</button>
     </div>
     </div>
 </template>
@@ -24,12 +24,21 @@ export default defineComponent(
 
 </script>
 <style scoped>
-
+  .infobox {
+    background-color: rgba(3, 3, 3, 0.7);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+    z-index: 1;
+  }
    .infobox .content{
-    position: absolute;
+    position: fixed;
     background-color: #fff;
     padding:3rem;
     font-size: 25px;
+    z-index: 2;
     top: 50%;
     left: 50%;
     max-width: 20rem;
@@ -53,7 +62,6 @@ export default defineComponent(
     margin-top: 3px;
     border: none;
     border-radius: 15px;
-    cursor:pointer;
     color: #fff;
   }
   .close:hover{

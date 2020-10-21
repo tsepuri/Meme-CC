@@ -1,6 +1,10 @@
 <template>
-  <div :class="{overlay:state.infobox}">
-    <h3>Score: {{state.score}}</h3>
+  <div>
+    <link rel="stylesheet" 
+        href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" 
+        integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" 
+        crossorigin="anonymous">
+    <h3 class="score">Score: {{state.score}}</h3>
     <div v-if="posts[0].file_name" :key=state.componentKey>
 
     <li v-for="(post, index) in posts"  :key="index">
@@ -8,12 +12,12 @@
       Likes: {{posts[index].likes}}
       </h3>
       <div class="likes" v-if="index%2==1 && !state.found">
-        <button class="higher button" @click="answeredHigher(true)">Higher</button>
-        <button class="lower button" @click="answeredHigher(false)">Lower</button>
+        <button class="higher button" @click="answeredHigher(true)"><i class="fas fa-arrow-up"></i> HIGHER </button>
+        <button class="lower button" @click="answeredHigher(false)"><i class="fas fa-arrow-down"></i> LOWER</button>
         </div>
-      <Card :info="posts[index]" :infoDisabled="index%2==1" @add-overlay="toggleInfobox" @close-box="toggleInfobox"/>
+      <Card :info="posts[index]" :infoDisabled="index%2==1" class="main-card"/>
     </li>
-      <Infobox v-if="state.found && state.infobox" @close-box="toggleAnswerbox">{{state.message}}<br></Infobox>
+      <Infobox v-if="state.found" @close-box="toggleAnswerbox">{{state.message}}<br></Infobox>
     </div>
     </div>
 </template>
@@ -36,16 +40,26 @@ export default defineComponent({
   },
   setup(){
     const posts = ref<Meme[]>(null);
+    interface MemeGGType {
+      componentKey: number,
+      isHigher: boolean,
+      reveal: boolean,
+      score: number,
+      found: boolean,
+      message: string,
+      answerBox: boolean,
+      threshold: number
+    }
     const state = reactive({
-      infobox: false,
       componentKey: 0,
       isHigher : true,
       reveal: false,
       score: 0,
       found: false,
       message: "Wrong",
-      answerBox: false
-    })
+      answerBox: false,
+      threshold: computed<number>(() => Math.max(10000 - (2000* state.score/3), 5))
+    }) as MemeGGType
     onMounted(
       async () => {
         posts.value = await postService.getRandomAmount(2)
@@ -58,9 +72,11 @@ export default defineComponent({
       try {
         if(posts.value && posts.value[1]){
           posts.value[0] = posts.value[1]
-        const result = await postService.getRandomAmount(1);
-        posts.value[1] = await result[0]
-        state.isHigher = posts?.value[1]?.likes > posts.value[0].likes
+        while(Math.abs(posts.value[0].likes - posts.value[1].likes) < state.threshold){
+          const result = await postService.getRandomAmount(1);
+          posts.value[1] = await result[0]
+        }
+        state.isHigher = posts.value[1].likes > posts.value[0].likes
         }
         state.found = false;
 
@@ -70,12 +86,7 @@ export default defineComponent({
           console.log("error")
       }
     };
-    const toggleInfobox = () => {
-      state.infobox = !state.infobox
-      //state.componentKey+=1;
-    };
     const toggleAnswerbox = () => {
-      state.infobox = !state.infobox;
       state.answerBox = !state.answerBox;
       loadNew();
     }
@@ -90,41 +101,48 @@ export default defineComponent({
 
       }
       state.found = true
-      state.infobox = true;
       state.answerBox = true;
     }
     return {
-      posts, state, loadNew, toggleInfobox, answeredHigher, toggleAnswerbox
+      posts, state, loadNew, answeredHigher, toggleAnswerbox
     };
   }
 });
-</script>>
+</script>
 
-<style scoped>
+<style>
 li{
   display: inline-block;
-  padding: 2rem;
+  padding: 0 0.5rem;
+}
+.score{
+  margin: 0.2rem;
 }
 .likes{
   font-size: 25px;
   align-items: center;
+  margin: 0.2rem;
 }
-.overlay:not(.infobox){
-  opacity: 0.7;
-}
+
 .higher{
-  background-color: lightgreen;
-  margin: 2px;
+  background-color: rgb(84, 235, 84);
+  margin: 0.2rem;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
 }
 .higher:hover{
-  background-color: rgb(161, 238, 161);
+  background-color: lightgreen;
 }
 .lower{
-  background-color: lightcoral;
-  margin: 2px;
+  background-color: rgb(236, 69, 69);
+  margin: 0.2rem;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
 }
 .lower:hover{
-  background-color: rgb(240, 150, 150);
+  background-color: lightcoral;
 }
 </style>
 

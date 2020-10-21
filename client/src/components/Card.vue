@@ -1,13 +1,17 @@
 <template>
   <div class="card center">
+   <link rel="stylesheet" 
+        href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" 
+        integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" 
+        crossorigin="anonymous">
     <img :src="`http://localhost:5000/api/file/${filename}`">
-    <br>
-    <button :disabled="infoDisabled" class="info_button button" @click="$emit('add-overlay'); infobox = true "><i class="fas fa-info-circle"></i> Info</button>
-    <Infobox v-if="infobox" @close-box="infobox=false; $emit('close-box');">
+    <h4 class="title">{{details.title}}</h4>
+    <button :disabled="infoDisabled" class="info_button button" @click="infobox = true "><i class="fas fa-info-circle"></i> Info</button>
+    <Infobox v-if="infobox" @close-box="infobox=false">
       Title: {{details.title}}<br>
     Created on {{details.created_at.substring(details.created_at.indexOf(",")+1, details.created_at.indexOf(":")-3)}}<br>
     Author: {{details.author}}<br>
-    <a class="info" :href="details.shortlink">Source</a>
+    <a class="info" :href="details.shortlink"><i :class="'fab fa-'+details.source.toLowerCase()"/> Source</a>
     <br>
     </Infobox>
   </div>
@@ -46,24 +50,39 @@ export default defineComponent(
 </script>
 <style scoped>
   .card{
-    background: #ddd;
+    background: #222;
     align-items: center;
-    width: 24rem;
-    height: 25rem;
-    padding: 3rem 1rem;
+    width: 47vw;
+    height: 75vh;
+    padding: 0.5rem;
+    margin: 0;
+    color: #fff;
   }
   img{
-    height: 23rem;
-    max-width: 24rem;
+    height: 63vh;
+    min-width: 25vw;
+    max-width: 45vw;
   }
-  .center{
-    align-items: center;
+  .title{
+    margin: 0.1rem;
   }
+  /* For mobile phones: */
+  @media only screen and (max-width: 768px) {
+  
+    .card{
+      width: 87vw;
+      height: 36vh;
+    }
+    img{
+      height: 25vh;
+      max-width: 80vw;
+    }
+}
   .info_button{
     background: #fff;
     font-size: 16px;
-    margin-top: 1rem;
-
+    margin: 0.2rem;
+    margin-bottom: 0.4rem;
   }
   .info_button:hover{
     background: #eee;

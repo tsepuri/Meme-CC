@@ -10,12 +10,10 @@
 <script>
 // @ is an alias to /src
 
-import HelloWorld from '@/components/HelloWorld.vue'
 import ScreenLoading from '@/components/ScreenLoading.vue'
 export default {
   name: 'Home',
   components: {
-    HelloWorld,
     ScreenLoading
   },
   data () {
