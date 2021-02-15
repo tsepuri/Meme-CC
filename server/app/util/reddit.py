@@ -22,7 +22,7 @@ def to_dict(submission):
             'likes':submission.score, 
             'url' :submission.url,
             'shortlink':submission.shortlink,
-            'author':submission.author.name,
+            'author': submission.author.name if submission.author else "",
             'title':submission.title,
             'created_at':datetime.utcfromtimestamp(submission.created_utc),
             'source': "Reddit"

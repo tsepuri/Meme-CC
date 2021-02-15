@@ -33,7 +33,6 @@ def getText(url, method="thresh"):
     # the temporary file
     text = pytesseract.image_to_string(Image.open(filename))
     text = cleanText(text)
-    print(text)
     os.remove(filename)
     os.remove(image_path)
     return text[0:300]

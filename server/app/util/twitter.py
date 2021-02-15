@@ -35,8 +35,6 @@ def find_images(**new_settings):
         new_info = (get_tweets_from_favorites(likers[index],twitter, individual_limit, tweets, time_limit))
         tweets = tweets + new_info['tweets']
         likers = likers + new_info['posters']
-        print (len(tweets))
-        print (len(likers))
         index += 1
         if len(tweets) >= limit:
             break

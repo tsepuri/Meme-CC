@@ -19,7 +19,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "@vue/composition-api";
 import { Meme } from "../types";
-import Infobox from "@/components/Infobox.vue"
+import Infobox from "./Infobox.vue"
 export default defineComponent(
   {
     name: 'Card',
