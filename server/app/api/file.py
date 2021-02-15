@@ -13,8 +13,7 @@ blueprint = Blueprint("file", __name__, url_prefix='/api/file')
 @blueprint.route("/<filename>")
 @cross_origin()
 def getFile(filename):
-    sm_db = queries.SocialMedia()
-    file = sm_db.getFile(filename)
+    file = queries.getByFile(filename)
     if not file: 
         return api.FILE_NOT_FOUND
     try:

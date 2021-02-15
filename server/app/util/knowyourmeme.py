@@ -1,2 +1,1 @@
-from bs4 import BeautifulSoup
-import requests
+# scraping was working but website's ui has changed, will update this

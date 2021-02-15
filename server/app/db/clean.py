@@ -1,8 +1,10 @@
-from .queries import SocialMedia
+from .queries import SocialMedia, Templates
 from ..util import storage
-query = SocialMedia()
-try:
-    query.dropTable()
-except Exception:
-    pass
+def dropTable(query):
+    try:
+        query.dropTable()
+    except Exception:
+        pass
+dropTable(SocialMedia())
+dropTable(Templates())
 storage.clean()
