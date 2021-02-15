@@ -18,3 +18,5 @@ TIME_FILTER = "week"
 #twitter
 # Accounts who like funny posts on Twitter
 DEFAULT_LIKERS = ["CosmonautMarcus", "richbrian", "WhosBreezyUK", "Quackity", "Memeulous", "grandayy", "CaucasianJames", "lilsasquatch66"]
+# Dummy image for posts that only have text
+DUMMY_URL = "dummyimage.com/400x400/ffffff/000000&text=No+image"
