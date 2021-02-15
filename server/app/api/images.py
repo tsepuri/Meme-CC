@@ -12,13 +12,19 @@ def specifyRoutes():
 @blueprint.route("/random")
 @cross_origin()
 def randomImage():
-    platform = request.args.get("src","reddit")
+    platform = request.args.get("src","all")
     limit = (int)(request.args.get("limit",1))
-    if platform.lower() == "twitter":
-        print("here")
+    if platform.lower() == "?":
         return '<html><h1>Under construction</h1></html>'
     else:
         smclass = queries.SocialMedia()
         post = smclass.getRandom(limit=limit)
         return jsonify(post)
+
+@blueprint.route("/search/<searched>")
+@cross_origin()
+def searchImage(searched):
+    #templateclass = queries.Templates()
+    post = queries.getBySearch(searched)
+    return jsonify(post)
         

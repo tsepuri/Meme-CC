@@ -1,10 +1,12 @@
 import api from './apiService'
 import { Meme } from '../types'
-import { compile } from 'json-schema-to-typescript'
 export const postService = {
   async getRandomAmount (amt: number) {
-    let result = await api.get<Meme[]>(`/images/random?limit=${amt}`)
-    let meme = <Meme>result[0]
+    let result:Meme[] = await api.get(`/images/random?limit=${amt}`)
+    return result
+  },
+  async getMatchingText (term: string) {
+    let result = await api.get(`/images/search/${term}`)
     return result
   }
 }
