@@ -5,6 +5,7 @@
         integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" 
         crossorigin="anonymous">
     <h3 class="score">Score: {{state.score}}</h3>
+    <h3 class="score">High Score: {{state.highscore}}</h3>
     <div v-if="posts[0].file_name" :key=state.componentKey>
 
     <li v-for="(post, index) in posts"  :key="index">
@@ -23,8 +24,9 @@
 </template>
 <script lang="ts">
 import Vue from 'vue'
-import Infobox from '@/components/Infobox.vue'
-import Card from '@/components/Card.vue'
+import Infobox from '../components/Infobox.vue'
+import Card from '../components/Card.vue'
+import getCookies from '../services/cookieUtil'
 import { postService } from '../services'
 import { Meme } from '../types'
 import { ref, defineComponent, onMounted, reactive, computed } from '@vue/composition-api';;
@@ -48,7 +50,8 @@ export default defineComponent({
       found: boolean,
       message: string,
       answerBox: boolean,
-      threshold: number
+      threshold: number,
+      highscore: string
     }
     const state = reactive({
       componentKey: 0,
@@ -58,12 +61,20 @@ export default defineComponent({
       found: false,
       message: "Wrong",
       answerBox: false,
-      threshold: computed<number>(() => Math.max(10000 - (2000* state.score/3), 5))
+      threshold: computed<number>(() => Math.max(10000 - (2000* state.score/3), 5)),
+      highscore: '0'
     }) as MemeGGType
     onMounted(
       async () => {
-        posts.value = await postService.getRandomAmount(2)
-        state.isHigher = posts?.value[1]?.likes > posts.value[0].likes
+        state.highscore = getCookies().highscore;
+        if (state.highscore === undefined) {
+            state.highscore = '0';
+            console.log(state.highscore);
+            document.cookie = `highscore=0;path=/;`;
+            console.log(document.cookie);
+        }
+        posts.value = await postService.getRandomAmount(2);
+        state.isHigher = posts?.value[1]?.likes > posts.value[0].likes;
       }
     );
     console.log(posts)
@@ -94,6 +105,11 @@ export default defineComponent({
       if(higher == state.isHigher){
         state.message = "Correct! You earned a point"
         state.score += 1
+        if (state.score > +state.highscore) {
+          state.highscore = state.score+"";
+          document.cookie = `highscore=${state.score};path=/;`;
+          console.log(state.highscore);
+        }
       }
       else{
         state.message = "Wrong. :( Your final score was "+state.score+"."
