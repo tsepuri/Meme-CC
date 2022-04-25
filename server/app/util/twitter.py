@@ -49,6 +49,8 @@ def get_tweets_from_favorites(liker, api, limit, tweets, time_limit):
         if "https://t.co" in tweet.text:
             # Removing URL at end of all tweets
             text = tweet.text[0:tweet.text.find("https://t.co")]
+        else:
+            text = tweet.text
         postid = tweet.id
         post_ids = [tweet['post_id'] for tweet in tweets]
         if postid in post_ids:
