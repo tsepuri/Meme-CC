@@ -1,6 +1,7 @@
 from .config import SESSION, ENGINE, METADATA
 from .models import UniqueMeme, Template
 from sqlalchemy.sql.expression import func, select
+
 class SocialMedia():
     table = []
     def __init__(self):
@@ -16,6 +17,8 @@ class SocialMedia():
         self.table.drop(ENGINE)
     def getPost(self, postID):
         return SESSION.query(UniqueMeme).filter_by(post_id = postID).first()
+    def getAll(self, limit=None):
+        return SESSION.query(UniqueMeme).limit(limit)
     # Need to add search feature after tesseract and neural net
 # Might make a new table and class for the examples of the templates, since the name is confusing and 
 # will make it easier to search with JOIN

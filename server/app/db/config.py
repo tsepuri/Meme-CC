@@ -1,5 +1,5 @@
 from .models import metadata, UniqueMeme, UniqueMemeTable, Template, TemplatesTable
-from sqlalchemy.orm import mapper, sessionmaker
+from sqlalchemy.orm import mapper, sessionmaker, clear_mappers
 from sqlalchemy import create_engine, MetaData
 from dotenv import load_dotenv
 import os
